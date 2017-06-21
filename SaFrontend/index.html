@@ -1,0 +1,167 @@
+<!doctype html>
+<html ng-app="demo">
+	<head>
+		<title>课程管理</title>
+		<script src="http://apps.bdimg.com/libs/angular.js/1.4.6/angular.min.js"></script>
+        <link rel="stylesheet" href="lib/ng-dialog/css/ngDialog.min.css">
+        <link rel="stylesheet" href="lib/ng-dialog/css/ngDialog-theme-default.min.css">
+        <script src="lib/ng-dialog/js/ngDialog.min.js"></script>
+        <!--<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>-->
+
+        <script src="app.js"></script>
+        <!--<script type="text/javascript">
+        </script>-->
+        <style>
+        table, th , td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+        table tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+        </style>
+	</head>
+
+	<body>
+		<div ng-controller="TableCtrl">
+            <h1>课程管理</h1>
+            <button ng-click="showAddStudentDialog()">增加</button>
+            <button ng-click="showStudentImportDialog()">导入</button>
+            <table>
+                <tr>
+                    <td>学号</td>
+                    <td>姓名</td>
+                    <td>专业</td>
+                    <td>操作</td>
+                </tr>
+                <tr ng-repeat="x in students">
+                    <td>{{x.no}}</td>
+                    <td>{{x.name}}</td>
+                    <td>{{x.department}}</td>
+                    <td>
+                        <button ng-click="deleteStudent(x)">删除</button>
+                        <button ng-click="showEditStudentDialog(x)">编辑</button>
+                        <button ng-click="showStudentScoreDialog(x)">成绩</button>
+                    </td>
+                </tr>
+            </table>
+            <input type="button" value="上一页" ng-click="lastPageListener()"></input>
+            <input type="button" value="下一页" ng-click="nextPageListener()"></input>
+		
+
+        <script type="text/ng-template" id="templateDialogAdd.html">
+            <div class="ui-dialog-title">
+                增加学生
+            </div>
+            <form novalidate>
+                <table>
+                    <tr>
+                        <td>学号</td>
+                        <td><input type='text' ng-model="s.no"></input></td>
+                    </tr>
+                    <tr>
+                        <td>姓名</td>
+                        <td><input type='text' ng-model="s.name"></input></td>
+                    </tr>
+                    <tr>
+                        <td>专业</td>
+                        <td><input type='text' ng-model="s.department"></input></td>
+                    </tr>
+                </table>
+                <button  ng-click="addStudent(s)">
+                    保存
+                </button>
+                <button ng-click="closeThisDialog()">
+                    取消
+                </button>
+            </form>
+        </script>
+
+        <script type="text/ng-template" id="templateDialogEdit.html">
+            <div class="ui-dialog-title">
+                修改信息
+            </div>
+            <form novalidate>
+                <table>
+                    <tr>
+                        <td>学号</td>
+                        <td><input type='text' ng-model="student.no"></input></td>
+                    </tr>
+                    <tr>
+                        <td>姓名</td>
+                        <td><input type='text' ng-model="student.name"></input></td>
+                    </tr>
+                    <tr>
+                        <td>专业</td>
+                        <td><input type='text' ng-model="student.department"></input></td>
+                    </tr>
+                </table>
+                <button  ng-click="updateStudent(student)">
+                    保存
+                </button>
+                <button ng-click="closeThisDialog()">
+                    取消
+                </button>
+            </form>
+        </script>
+
+        <script type="text/ng-template" id="templateDialogScore.html">
+            <div class="ui-dialog-title">
+                成绩录入
+            </div>
+            <form novalidate>
+                <table>
+                    <tr>
+                        <td>平时</td>
+                        <td><input type='number' ng-model="student.usual"></input></td>
+                    </tr>
+                    <tr>
+                        <td>大作业</td>
+                        <td><input type='number' ng-model="student.bigJob"></input></td>
+                    </tr>
+                    <tr>
+                        <td>期末考试</td>
+                        <td><input type='number' ng-model="student.finalScore"></input></td>
+                    </tr>
+                    <tr>
+                        <td>总评</td>
+                        <td>{{student.usual + student.bigJob + student.finalScore}}</td>
+                    </tr>
+                </table>
+                <button  ng-click="updateStudent(student)">
+                    保存
+                </button>
+                <button ng-click="closeThisDialog()">
+                    取消
+                </button>
+            </form>
+        </script>
+
+        <script type="text/ng-template" id="templateDialogImport.html">
+            <div class="ui-dialog-title">
+                导入课程信息
+            </div>
+
+            选择文件: <input type="file" file-model="stuinfo"><br/>
+            <button ng-click="importStudent()">提交</button>
+            <button ng-click="closeThisDialog()">
+                取消
+            </button>
+            <!--<form action="http://localhost:8080/import" method="post" enctype="multipart/form-data">
+                选择文件:<input type="file" name="info"><br/>
+                <input type="submit" value="提交">
+            </form>-->
+
+        </script>
+
+        <!--<h2>end</h2>
+        <button ng-click="hello()">hello</button>-->
+
+        </div>
+
+	</body>
+</html>
